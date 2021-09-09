@@ -12,82 +12,78 @@ And the data format was explained on: http://download.geonames.org/export/dump/r
 * **/cities/comparing**
 * **/cities/hints**
 
-
 ## /cities
 
-Description:
+### Description:
 
 Returns list of geographical objects.
 
-Query arguments:
+### Query arguments:
+
 * **page**: int (*default = 1*) - argument sets page to be shown, depends on limit argument
 * **limit**: int (*default = 10*) - argument sets limit to be show on page
 
-Response example:
-<details>
-  <summary>Click to expand!</summary>
-    {
-    "result": [
-            {
-            "geonameid": 451749,
-            "name": "Zhukovo",
-            "asciiname": "Zhukovo",
-            "alternatenames": null,
-            "latitude": "57.26429",
-            "longitude": "34.20956",
-            "feature_class": "P",
-            "feature_code": "PPL",
-            "country_code": "RU",
-            "cc2": null,
-            "admin1_code": "77",
-            "admin2_code": null,
-            "admin3_code": null,
-            "admin4_code": null,
-            "population": "0",
-            "elevation": null,
-            "dem": "237",
-            "timezone": "Europe/Moscow",
-            "modification_date": "2011-07-09"
-            },
-            {
-            "geonameid": 451750,
-            "name": "Zhitovo",
-            "asciiname": "Zhitovo",
-            "alternatenames": null,
-            "latitude": "57.29693",
-            "longitude": "34.41848",
-            "feature_class": "P",
-            "feature_code": "PPL",
-            "country_code": "RU",
-            "cc2": null,
-            "admin1_code": "77",
-            "admin2_code": null,
-            "admin3_code": null,
-            "admin4_code": null,
-            "population": "0",
-            "elevation": null,
-            "dem": "247",
-            "timezone": "Europe/Moscow",
-            "modification_date": "2011-07-09"
-            }
-        ]
-    }
-
-</details>
-
+### Response example:
+~~~json
+{
+"result": [
+        {
+        "geonameid": 451749,
+        "name": "Zhukovo",
+        "asciiname": "Zhukovo",
+        "alternatenames": null,
+        "latitude": "57.26429",
+        "longitude": "34.20956",
+        "feature_class": "P",
+        "feature_code": "PPL",
+        "country_code": "RU",
+        "cc2": null,
+        "admin1_code": "77",
+        "admin2_code": null,
+        "admin3_code": null,
+        "admin4_code": null,
+        "population": "0",
+        "elevation": null,
+        "dem": "237",
+        "timezone": "Europe/Moscow",
+        "modification_date": "2011-07-09"
+        },
+        {
+        "geonameid": 451750,
+        "name": "Zhitovo",
+        "asciiname": "Zhitovo",
+        "alternatenames": null,
+        "latitude": "57.29693",
+        "longitude": "34.41848",
+        "feature_class": "P",
+        "feature_code": "PPL",
+        "country_code": "RU",
+        "cc2": null,
+        "admin1_code": "77",
+        "admin2_code": null,
+        "admin3_code": null,
+        "admin4_code": null,
+        "population": "0",
+        "elevation": null,
+        "dem": "247",
+        "timezone": "Europe/Moscow",
+        "modification_date": "2011-07-09"
+        }
+    ]
+}
+~~~
 
 ## /cities/{geonameid}
 
-Description:
+### Description:
 
 Returns full information about geographical object.
 
-Path arguments:
+### Path arguments:
 * **geonameid**: int - object id
 
 Response example:
-<details>
-  <summary>Click to expand!</summary>
+```json
     {
     "geonameid": 451749,
     "name": "Zhukovo",
@@ -109,16 +105,17 @@ Response example:
     "timezone": "Europe/Moscow",
     "modification_date": "2011-07-09"
     }
-</details>
+```
 
 
 ## /cities/comparing
 
-Description:
+### Description:
 
 Compares two objects by the timezone and the distance to North.
 
-Query arguments:
+### Query arguments:
+
 * **first_name**: str- first name (can be written in Cyrillic or Latin)
 * **second_name**: str - second name (can be written in Cyrillic or Latin)
 
@@ -134,32 +131,31 @@ Response example:
 
 ## /cities/hints
 
-Description:
+### Description:
 
-Additional method.
+*Additional method*
 
 Show object names that match uncompleted request.
 
-Query arguments:
+### Query arguments:
 * **request**: str- part of geographical object name (can be written in Cyrillic or Latin)
 * **limit**: int (default=10) - limit of hints to be found
 
-Response example:
-<details>
-  <summary>Click to expand!</summary>
-    {
-    "hints": [
-        "Sosenka",
-        "Ozero Sosnishchi",
-        "Pristan’ Sosnitsa",
-        "Sosnovka",
-        "Vostochnyy Sosyk",
-        "Verkhnyaya Sosnovka",
-        "Verkhnyaya Sosnovka",
-        "Vadovo-Sosnovka",
-        "Tikhaya Sosna",
-        "Staryye Sosny",
-        "Staroye Sosno"
-        ]
-    }
-</details>
+### Response example:
+```json
+{
+"hints": [
+    "Sosenka",
+    "Ozero Sosnishchi",
+    "Pristan’ Sosnitsa",
+    "Sosnovka",
+    "Vostochnyy Sosyk",
+    "Verkhnyaya Sosnovka",
+    "Verkhnyaya Sosnovka",
+    "Vadovo-Sosnovka",
+    "Tikhaya Sosna",
+    "Staryye Sosny",
+    "Staroye Sosno"
+    ]
+}
+```
