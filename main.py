@@ -53,7 +53,7 @@ def init_transliter():
 
     global tr
     symbols = (u"абвгдеёжзийклмнопрстуфшъыьэюАБВГДЕЁЖЗИЙКЛМНОПРСТУФШЪЫЬЭЮ",
-            u"abvgdeejzijklmnoprstufs’y’euABVGDEEJZIJKLMNOPRSTUFS’Y’EU")
+               u"abvgdeejzijklmnoprstufs’y’euABVGDEEJZIJKLMNOPRSTUFS’Y’EU")
     tr = {ord(a):ord(b) for a, b in zip(*symbols)}
 
     tr[ord('я')] = 'ya'
@@ -76,12 +76,12 @@ def ru_translit(text: str) -> str:
     return text.translate(tr)
 
 
-@lru_cache(maxsize=512)
+@lru_cache(maxsize=256)
 def row_to_dict(geonameid: int) -> Optional[dict]:
     try:
         s = data.loc[geonameid]
     except KeyError as er:
-        logger.error(f"Not existing geonameid: {geonameid}")
+        logger.error(f"Not existing geonameid={geonameid}")
         return None
 
     answer = {"geonameid": geonameid}
@@ -89,6 +89,7 @@ def row_to_dict(geonameid: int) -> Optional[dict]:
         answer[kword] = str(s.iloc[i]) if 'nan' not in str(s.iloc[i]) else None
 
     return answer
+
 
 def search_to_hints(part: str, limit: int):
     result = []
@@ -126,7 +127,6 @@ def search_to_compare(name_1: str, name_2: str):
 
 @app.get("/cities")
 def show_page(response: Response, page: int = 1, limit: int=10):
-
     MAX_LIMIT = 300
     if limit > MAX_LIMIT:
         limit = MAX_LIMIT
@@ -136,10 +136,11 @@ def show_page(response: Response, page: int = 1, limit: int=10):
 
     if to_skip + 1 > total_records:
         response.status_code = 400
-        return "Bad Request. No results on page={page} with limit = {limit}"
+        return "Bad Request. No results on page={page} with limit={limit}"
 
     d = data[to_skip:to_skip+limit] 
     answer = []
+    # Slow iterrows method on DataFrame with Length <= 300
     for id, _ in d.iterrows():
         answer.append(row_to_dict(id))
 
@@ -165,7 +166,6 @@ def compare_by_names(response: Response, first_name: str, second_name: str):
     fcity = ru_translit(first_name)
     scity = ru_translit(second_name)
 
-    # TODO: implement a fast search by name
     r1, r2 = search_to_compare(fcity, scity)
 
     if not r1:
@@ -190,7 +190,7 @@ def get_city(response: Response, geonameid: int):
 
     if not answer:
         response.status_code = 404
-        return f"not existing geonameid = {geonameid}"
+        return f"Not existing geonameid={geonameid}"
 
     return answer
 
