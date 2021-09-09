@@ -7,12 +7,12 @@ The data was taken from the link: http://download.geonames.org/export/dump/RU.zi
 And the data format was explained on: http://download.geonames.org/export/dump/readme.txt
 
 ## Methods implemented:
-* **/cities**
-* **/cities/{geonameid}**
-* **/cities/comparing**
-* **/cities/hints**
+* GET **/cities**
+* GET **/cities/{geonameid}**
+* GET **/cities/comparing**
+* GET **/cities/hints**
 
-## /cities
+## GET /cities
 
 ### Description:
 
@@ -73,7 +73,7 @@ Returns list of geographical objects.
 }
 ~~~
 
-## /cities/{geonameid}
+## GET /cities/{geonameid}
 
 ### Description:
 
@@ -108,7 +108,7 @@ Response example:
 ```
 
 
-## /cities/comparing
+## GET /cities/comparing
 
 ### Description:
 
@@ -129,7 +129,7 @@ Response example:
 </details>
 
 
-## /cities/hints
+## GET /cities/hints
 
 ### Description:
 
