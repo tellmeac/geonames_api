@@ -1,6 +1,8 @@
 # Geonames API Task
 
-In this task implemented HTTP server to deliver information about geographical objects.
+Repository link: https://gitlab.com/b605/geonames_api
+
+In this task was implemented HTTP server to deliver information about geographical objects using FastAPI.
 
 The data was taken from the link: http://download.geonames.org/export/dump/RU.zip
 
@@ -120,14 +122,12 @@ Compares two objects by the timezone and the distance to North.
 * **second_name**: str - second name (can be written in Cyrillic or Latin)
 
 Response example:
-<details>
-  <summary>Click to expand!</summary>
+```json
     {
     "northest": "Сосенка",
     "is_same_timezone": false
     }
-</details>
-
+```
 
 ## GET /cities/hints
 
