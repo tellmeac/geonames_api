@@ -2,6 +2,11 @@
 RU.txt
 messages.log
 
+# sqlite database
+*.db
+*.sqlite3
+*.sqlite
+
 # idea project files
 .idea
 
