@@ -8,11 +8,12 @@ from io import StringIO
 from charset_normalizer import from_fp
 
 from geonames.models.geodata import from_list, GeoData
+from geonames.repository.repository import GeodataRepository
 
 logger = logging.getLogger(__name__)
 
 
-class GeonamesSQLiteRepository:
+class GeonamesSQLiteRepository(GeodataRepository):
     """
     In-Memory sqlite repository implementation
     """
