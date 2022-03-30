@@ -1,0 +1,2 @@
+class GeoNamesService:
+    pass
