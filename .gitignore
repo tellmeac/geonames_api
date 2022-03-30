@@ -2,6 +2,9 @@
 RU.txt
 messages.log
 
+# idea files
+.idea
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
