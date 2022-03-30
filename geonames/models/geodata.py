@@ -30,6 +30,9 @@ class GeoData(BaseModel):
     ascii_name: str
     alternate_names: str
 
+    latitude: str
+    longitude: str
+
     feature_class: str
     feature_code: str
     country_code: str

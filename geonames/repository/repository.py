@@ -7,9 +7,9 @@ class GeodataRepository(Protocol):
     """
     Base GeoData repository interface
     """
-    def get_rows(self, limit: int, offset: int) -> List[GeoData]:
+    def get_geodata(self, limit: int, offset: int) -> List[GeoData]:
         """
-        Gets rows with offset and limit
+        Gets geodata list by offset and limit
         :param limit:
         :param offset:
         :return: list of geodata models

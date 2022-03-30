@@ -6,7 +6,6 @@ authors = ["Lipatov Alexander <tellmeac@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-pydantic-sqlite = "^0.2.1"
 fastapi = "^0.75.0"
 charset-normalizer = "^2.0.12"
 

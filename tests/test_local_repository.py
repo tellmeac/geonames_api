@@ -9,8 +9,9 @@ data_path = Path("../RU.txt")
 # \t symbol as delimiter
 delimiter = '\t'
 
-# path for test database
-database_path = Path('../test_database.db')
+# conn strings for test database
+file_database_conn = "../test_database.db"
+memory_database_conn = ":memory:"
 
 
 def test_load():
@@ -19,19 +20,8 @@ def test_load():
     :return:
     """
     try:
-        _ = GeonamesSQLiteRepository(data_path, delimiter)
+        _ = GeonamesSQLiteRepository(memory_database_conn, data_path, delimiter)
     except Exception as e:
         pytest.fail(f"unexpected exception: {e}")
 
-
-def test_save():
-    """
-    Tests save local repository database to file.
-    :return:
-    """
-    repository = GeonamesSQLiteRepository(data_path, delimiter)
-    try:
-        repository.save(database_path)
-    except Exception as e:
-        pytest.fail(f"unexpected exception: {e}")
 
