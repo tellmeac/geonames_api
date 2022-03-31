@@ -31,6 +31,9 @@ class GeonamesSQLiteRepository(GeodataRepository):
         self._records_count = 0
 
         self._conn_address = conn
+        if conn == ':memory:':
+            logger.warning(f"Initialize sqlite database in memory")
+
         self._conn = sqlite3.connect(conn)
         self._field_names = GeoData.schema()["properties"].keys()
 
