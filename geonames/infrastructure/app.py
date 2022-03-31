@@ -1,3 +1,9 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+
+class Application:
+    """
+    Application entrypoint class.
+    """
+    def __init__(self):
+        self._app = FastAPI()
