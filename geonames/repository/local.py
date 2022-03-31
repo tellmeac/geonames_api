@@ -17,6 +17,7 @@ class GeonamesSQLiteRepository(GeodataRepository):
     """
     In-Memory sqlite repository implementation
     """
+
     def __init__(self, conn: str, filepath: Path, delimiter: str) -> None:
         """
         Accepts table like csv, but with specific delimiter
@@ -32,7 +33,6 @@ class GeonamesSQLiteRepository(GeodataRepository):
         self._conn_address = conn
         self._conn = sqlite3.connect(conn)
         self._field_names = GeoData.schema()["properties"].keys()
-        self._conn.execute(f"create table {self._table_name} ({','.join(self._field_names)});")
 
         self._load()
 
@@ -43,7 +43,13 @@ class GeonamesSQLiteRepository(GeodataRepository):
         :param offset:
         :return: list of geodata models
         """
-        pass
+        select_statement = f'select * from {self._table_name} limit ? offset ?'
+        cursor = self._conn.execute(select_statement, (limit, offset))
+        result: List[GeoData] = list()
+
+        for row in cursor:
+            result.append(from_list(row))
+        return result
 
     def search_by_name(self, name: str) -> List[GeoData]:
         """
@@ -67,14 +73,21 @@ class GeonamesSQLiteRepository(GeodataRepository):
         :return:
         """
         self._conn = sqlite3.connect(self._conn_address)
-        self._conn(f"create table {self._table_name} ({','.join(self._field_names)});")
+        self._conn.execute(f"drop table if exists {self._table_name};")
+        self._create_table()
         self._load()
 
     def _load(self) -> None:
         """
-        Loads geonames content in in-memory sqlite.
+        Loads geonames content in sqlite.
         :return:
         """
+        try:
+            self._create_table()
+        except Exception as e:
+            logger.info(f"load has been interrupted, database already initialized: {e}")
+            return
+
         if not self._filepath.exists():
             raise FileNotFoundError(f"table file with geonames not found: {self._filepath}")
 
@@ -89,6 +102,7 @@ class GeonamesSQLiteRepository(GeodataRepository):
                 self._insert_row(row)
                 self._records_count += 1
 
+        self._conn.commit()
         logger.info(f"Data load has been finished: with {self._records_count} records")
 
     def _insert_row(self, row: List[str]) -> None:
@@ -101,5 +115,8 @@ class GeonamesSQLiteRepository(GeodataRepository):
             raise ValueError(f"data list length doesn't match fields count "
                              f"(required={len(self._field_names)}, have={len(row)})")
 
-        insert_statement = f"insert into {self._table_name} values ({','.join(['?']*len(row))});"
+        insert_statement = f"insert into {self._table_name} values ({','.join(['?'] * len(row))});"
         self._conn.execute(insert_statement, row)
+
+    def _create_table(self):
+        self._conn.execute(f"create table {self._table_name} ({','.join(self._field_names)});")
