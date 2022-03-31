@@ -27,14 +27,14 @@ def test_load():
         pytest.fail(f"unexpected exception: {e}")
 
 
-def test_get():
+def test_get_unfiltered():
     """
-    Tests load repository content locally.
+    Tests get geodata with limit and offset.
     :return:
     """
     repository = GeonamesSQLiteRepository(test_database_conn, data_path, delimiter)
 
-    required_limit = 10
+    required_limit = 100
     required_offset = 0
     models = repository.get_geodata(required_limit, required_offset)
 
@@ -43,3 +43,30 @@ def test_get():
 
     # checking that offset is correct
     assert models[0].id == '451747'
+
+
+def test_get_by_name():
+    """
+    Tests get geodata by name.
+    :return:
+    """
+    repository = GeonamesSQLiteRepository(test_database_conn, data_path, delimiter)
+
+    name = "Smorodinka"
+    models = repository.search_by_name(name)
+
+    assert len(models) > 0
+
+
+def test_get_by_name_part():
+    """
+    Tests get geodata by name part.
+    :return:
+    """
+    repository = GeonamesSQLiteRepository(test_database_conn, data_path, delimiter)
+
+    name_part = "Smor"
+    limit = 5
+    models = repository.search_by_name_part(name_part, limit)
+
+    assert limit == len(models)

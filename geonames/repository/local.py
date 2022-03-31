@@ -57,15 +57,28 @@ class GeonamesSQLiteRepository(GeodataRepository):
         :param name:
         :return: list of geodata models
         """
-        pass
+        select_statement = f'select * from {self._table_name} where name like ?;'
+        cursor = self._conn.execute(select_statement, (name,))
+        result: List[GeoData] = list()
 
-    def search_by_name_part(self, name_part: str) -> List[GeoData]:
+        for row in cursor:
+            result.append(from_list(row))
+        return result
+
+    def search_by_name_part(self, name_part: str, limit: int) -> List[GeoData]:
         """
         Searches GeoData by its name part
         :param name_part:
+        :param limit:
         :return: list of geodata models
         """
-        pass
+        select_statement = f'select * from {self._table_name} where instr(name, ?) limit ?;'
+        cursor = self._conn.execute(select_statement, (name_part, limit))
+        result: List[GeoData] = list()
+
+        for row in cursor:
+            result.append(from_list(row))
+        return result
 
     def reload(self) -> None:
         """

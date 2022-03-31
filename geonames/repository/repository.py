@@ -24,10 +24,11 @@ class GeodataRepository(Protocol):
         """
         pass
 
-    def search_by_name_part(self, name_part: str) -> List[GeoData]:
+    def search_by_name_part(self, name_part: str, limit: int) -> List[GeoData]:
         """
         Searches GeoData by its name part
         :param name_part:
+        :param limit:
         :return: list of geodata models
         """
         pass
